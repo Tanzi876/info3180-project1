@@ -1,0 +1,17 @@
+{%extend "base.html"%}
+
+{%block main%}
+<div class =card>
+    {% for estate in listing% }
+    <h3>{{estate.title}}</h3>
+    <button class= price>{{estate.price}}</button>
+    <button class= ptype>{{estate.types}}</button>
+    <p id=info>{{estate.descrp}}</p>
+
+    <p id= bed> <span><i class="fa-bed"></i></span>{{estate.bedroom}} Bedrooms</p>
+    <p id=bath><span><i class="fa-bath"></i></span>{{estate.bathroom}} Bathrooms</p>  
+    <p id= eta><span><i class="fal fa-map-marker-alt"></i></span>{{estate.location}} Bathrooms</p>  
+    <button class=email>Email Realtor</button>
+
+</div>
+{%endblock%}

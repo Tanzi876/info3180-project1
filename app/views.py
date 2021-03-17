@@ -5,9 +5,11 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-
+# from werkzeug.utils import secure_filename
+from app import app,db
+from flask import render_template, request, redirect, url_for,flash
+from app.forms import PropertyForm
+from app.models import RealEstate
 
 ###
 # Routing for your application.
@@ -23,6 +25,41 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+@app.route('/property',methods=['POST','GET'])
+def property():
+    pform=PropertyForm()
+    if request.method=="POST":
+        if pform.validate_on_submit():
+            title=pform.title.data
+            bedroom=pform.no_bed.data
+            bathroom=pform.no_bath.data
+            location=pform.location.data
+            price=pform.price.data
+            types=pform.types.data
+            descrp=pform.descrp.data
+            photo=pform.photo.data
+            
+            listing=RealEstate(title,bedroom,bathroom,location,price,types,descrp,photo) 
+            db.session.add(listing)
+            db.session.commit()
+            flash('Property Added') 
+            return redirect(url_for('properties'))   
+    return render_template('property.html',form=pform)
+
+@app.route('/properties')
+def properties():
+    listing=db.session.query(RealEstate).all()
+   
+    return render_template('properties.html',listing=listing)
+
+@app.route('/property/<propertyid>')
+def viewproperties(pid):
+    pid=RealEstate.query.get(int(pid))
+    return render_template('view.html',pid=pid)
+    
+
+
 
 
 ###

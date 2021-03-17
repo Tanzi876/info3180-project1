@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+
+{%block main%}
+<h1> Properties</h1>
+<ul class = grid>
+    {%for estate in listing%}
+    <li id=photo>
+        <img src="{{estate.photo}}">
+    </li>
+    <li id = title>
+        {{estate.title}}
+    </li>
+    <li id= location>
+        {{estate.location}}
+    </li>
+    <li id= price>
+        {{estate.price}}
+    </li>
+    <li>
+        <a href={{url_for('viewproperties',pid=estate.id)}}><button> View Property</button></a>
+    </li>
+    {%endfor%}
+</ul>
+{%endblock%}
