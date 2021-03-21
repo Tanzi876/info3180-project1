@@ -4,6 +4,7 @@
 <h1> Properties</h1>
 <ul class = grid>
     {%for estate in listing%}
+    <div class="card container col-7 ml-0 mb-3">
     <li id=photo>
         <img src="{{estate.photo}}">
     </li>
@@ -20,5 +21,6 @@
         <a href={{url_for('viewproperties',pid=estate.id)}}><button> View Property</button></a>
     </li>
     {%endfor%}
+    </div>
 </ul>
 {%endblock%}

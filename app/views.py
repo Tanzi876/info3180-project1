@@ -6,10 +6,12 @@ This file creates your application.
 """
 
 # from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename
 from app import app,db
 from flask import render_template, request, redirect, url_for,flash
 from app.forms import PropertyForm
 from app.models import RealEstate
+import os
 
 ###
 # Routing for your application.
@@ -29,34 +31,29 @@ def about():
 @app.route('/property',methods=['POST','GET'])
 def property():
     pform=PropertyForm()
-    if request.method=="POST":
-        if pform.validate_on_submit():
-            title=pform.title.data
-            bedroom=pform.no_bed.data
-            bathroom=pform.no_bath.data
-            location=pform.location.data
-            price=pform.price.data
-            types=pform.types.data
-            descrp=pform.descrp.data
-            photo=pform.photo.data
-            
-            listing=RealEstate(title,bedroom,bathroom,location,price,types,descrp,photo) 
-            db.session.add(listing)
-            db.session.commit()
-            flash('Property Added') 
-            return redirect(url_for('properties'))   
+    if request.method=="POST" and  pform.validate_on_submit():
+        photo=pform.photo.data
+        filename=secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+
+        new_property=RealEstate(title=pform.title.data,bedroom=pform.no_bed.data,bathroom=pform.no_bath.data,location=pform.location.data,price=pform.price.data,types=pform.types.data,descrp=pform.descrp.data,photo=filename) 
+        
+        db.session.add(new_property)
+        db.session.commit()
+        flash('Property Added','success') 
+        return redirect(url_for('properties'))   
     return render_template('property.html',form=pform)
 
 @app.route('/properties')
 def properties():
-    listing=db.session.query(RealEstate).all()
+    listing=RealEstate.query.all()
    
     return render_template('properties.html',listing=listing)
 
 @app.route('/property/<propertyid>')
 def viewproperties(pid):
     pid=RealEstate.query.get(int(pid))
-    return render_template('view.html',pid=pid)
+    return render_template('view.html',pid)
     
 
 
