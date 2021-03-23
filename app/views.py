@@ -5,8 +5,8 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-# from werkzeug.utils import secure_filename
 from werkzeug.utils import secure_filename
+from flask.helpers import send_from_directory
 from app import app,db
 from flask import render_template, request, redirect, url_for,flash
 from app.forms import PropertyForm
@@ -28,15 +28,17 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
-@app.route('/property',methods=['POST','GET'])
+@app.route('/property',methods=['GET','POST'])
 def property():
     pform=PropertyForm()
-    if request.method=="POST" and  pform.validate_on_submit():
+    if request.method=="POST": 
         photo=pform.photo.data
         filename=secure_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 
-        new_property=RealEstate(title=pform.title.data,bedroom=pform.no_bed.data,bathroom=pform.no_bath.data,location=pform.location.data,price=pform.price.data,types=pform.types.data,descrp=pform.descrp.data,photo=filename) 
+        new_property=RealEstate(title=pform.title.data,bedroom=pform.no_bed.data,
+        bathroom=pform.no_bath.data,location=pform.location.data,price=pform.price.data,
+        types=pform.types.data,descrp=pform.descrp.data,photo=filename) 
         
         db.session.add(new_property)
         db.session.commit()
@@ -55,6 +57,10 @@ def viewproperties(pid):
     pid=RealEstate.query.get(int(pid))
     return render_template('view.html',pid)
     
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    rootdir=os.getcwd()
+    return send_from_directory(rootdir+"/"+app.config["UPLOAD_FOLDER"],filename)
 
 
 

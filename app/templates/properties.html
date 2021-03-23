@@ -2,25 +2,17 @@
 
 {%block main%}
 <h1> Properties</h1>
-<ul class = grid>
+<div class= grid>
     {%for estate in listing%}
-    <div class="card container col-7 ml-0 mb-3">
-    <li id=photo>
-        <img src="{{estate.photo}}">
-    </li>
-    <li id = title>
-        {{estate.title}}
-    </li>
-    <li id= location>
-        {{estate.location}}
-    </li>
-    <li id= price>
-        {{estate.price}}
-    </li>
-    <li>
-        <a href={{url_for('viewproperties',pid=estate.id)}}><button> View Property</button></a>
-    </li>
-    {%endfor%}
+    <div class="card ">
+    
+        <img src="{{url_for('get_image',filename=estate.photo)}}">
+   
+        <p> {{estate.title}}</p>    
+        <p> {{estate.location}}</p> 
+        <p> <i class="fal fa-map-marker-alt"></i>{{estate.price}}</p> 
+        <button class='btn btn-success'{{url_for('viewproperties',propertyid=estate.id)}}>View Property</button> 
     </div>
-</ul>
+   {%endfor%}
+</div>
 {%endblock%}
