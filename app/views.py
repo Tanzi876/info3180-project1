@@ -32,6 +32,7 @@ def about():
 def property():
     pform=PropertyForm()
     if request.method=="POST": 
+        
         photo=pform.photo.data
         filename=secure_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
@@ -53,9 +54,9 @@ def properties():
     return render_template('properties.html',listing=listing)
 
 @app.route('/property/<propertyid>')
-def viewproperties(pid):
-    pid=RealEstate.query.get(int(pid))
-    return render_template('view.html',pid)
+def viewproperties(propertyid):
+    propertyid=RealEstate.query.get(int(propertyid))
+    return render_template('view.html',propertyid)
     
 @app.route('/uploads/<filename>')
 def get_image(filename):

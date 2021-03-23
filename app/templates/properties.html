@@ -8,10 +8,10 @@
     
         <img src="{{url_for('get_image',filename=estate.photo)}}">
    
-        <p> {{estate.title}}</p>    
-        <p> {{estate.location}}</p> 
-        <p> <i class="fal fa-map-marker-alt"></i>{{estate.price}}</p> 
-        <button class='btn btn-success'{{url_for('viewproperties',propertyid=estate.id)}}>View Property</button> 
+        <p id=title> {{estate.title}}</p>    
+        <p id=location> {{estate.location}}</p> 
+        <p id =price> <i class="fal fa-map-marker-alt"></i>{{estate.price}}</p> 
+        <button class='btn btn-success'type= submit action ="{{url_for('viewproperties',propertyid=estate.id)}}">View Property</button> 
     </div>
    {%endfor%}
 </div>

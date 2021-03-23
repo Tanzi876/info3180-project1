@@ -20,6 +20,8 @@ h6{
 
 .grid .card{
     padding: 0px;
+    
+    
 }
 
 .card p{
@@ -28,14 +30,29 @@ h6{
 
 .grid {
     display: grid;
-    width: 50rem;
-    grid-gap: 6rem;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(30rem, 1fr)
-    );  
+    grid-gap: 4rem;   
+    width: 100%;
     
 }
-img{
+
+.grid img{
     width: 100%;
 }
+.grid #title{
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 0px
+}
+.grid #location{
+    color: gray;
+}
+.grid #price{
+    border-radius: 15px;
+    background-color: rgb(12, 148, 226);
+    color: white;
+    margin-right: 360px;
+    margin-left: 15px;
+    text-align: left; 
+}
+
+
