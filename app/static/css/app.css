@@ -9,7 +9,7 @@ h1{
 h6{
     font-weight: bold;
 }
-.card{
+ .card{
     padding: 25px;
     width: 45%;
 }
@@ -32,6 +32,7 @@ h6{
     display: grid;
     grid-gap: 4rem;   
     width: 100%;
+    grid-template-columns: repeat(autofit,minmax(30rem),1fr);
     
 }
 
