@@ -1,5 +1,5 @@
 from . import db
-from PIL import Image
+
 
 class RealEstate(db.Model):
     # You can use this to change the table name. The default convention is to use
